@@ -1,24 +1,64 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>Login</title>
-    <link rel="stylesheet" href="/styles.css" />
+<meta charset="utf-8" />
+<title>Login</title>
+<link rel="stylesheet" href="/styles.css" />
+<style>
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+}
+.card{
+    width:350px;
+}
+</style>
 </head>
+
 <body>
-<div class="container">
-    <div class="card" style="max-width:520px;margin:80px auto;">
-        <div class="title">Login</div>
-        <div class="small">Demo: admin / 123456</div>
-        <div class="hr"></div>
-        <div id="err" class="small" style="color:#ff6b6b;display:none;margin-bottom:10px;"></div>
-        <div class="row" style="flex-direction:column;align-items:stretch">
-            <input id="u" placeholder="username" value="admin" />
-            <input id="p" placeholder="password" type="password" value="123456" />
-            <button id="btn">Login</button>
-        </div>
-    </div>
+
+<div class="card">
+    <h2 style="margin-bottom:20px">Admin Login</h2>
+
+    <input id="user" placeholder="username" style="width:100%;margin-bottom:10px" />
+    <input id="pass" type="password" placeholder="password" style="width:100%;margin-bottom:10px" />
+
+    <button id="loginBtn" style="width:100%">Login</button>
+
+    <div id="err" style="color:red;margin-top:10px"></div>
 </div>
-<script src="/login.js"></script>
+
+<script>
+
+document.getElementById("loginBtn").onclick = async () => {
+
+    const username = document.getElementById("user").value
+    const password = document.getElementById("pass").value
+
+    const r = await fetch("/api/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            username,
+            password
+        })
+    })
+
+    const j = await r.json()
+
+    if(j.ok){
+        location.href="/dashboard.html"
+    }else{
+        document.getElementById("err").innerText="Login failed"
+    }
+
+}
+
+</script>
+
 </body>
 </html>
