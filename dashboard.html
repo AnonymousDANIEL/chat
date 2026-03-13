@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>WhatsApp Admin Panel</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <div>
+            <div class="title">WhatsApp Admin Panel</div>
+            <div class="subtitle">扫码登录 / 多开 / 列表管理 / 一键进入聊天页</div>
+        </div>
+        <div class="row">
+            <button class="secondary" id="logout">Logout</button>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="row">
+                <input id="sessionId" placeholder="sessionId（可空，自动生成） 例如：s_001 / s_002" />
+                <button id="create">Create Session</button>
+            </div>
+            <div class="hr"></div>
+
+            <div class="small" style="margin-bottom:10px;">
+                ✅ 左边是 <b>QR 列表</b>（更容易找） / ready 会显示绿色点 / Delete 会真正删除（不会复活）
+            </div>
+
+            <div id="list" class="sessionList"></div>
+        </div>
+
+        <div class="card">
+            <div style="font-weight:900;margin-bottom:8px;">提示</div>
+            <ul class="small">
+                <li>扫码后状态变 <b>ready</b>，点 <b>Open Chats</b> 进入聊天页</li>
+                <li>多开：每个账号用不同 sessionId（如 s_001 / s_002）</li>
+                <li>如果没 QR：点 <b>Rescan</b></li>
+                <li>聊天页点 <b>Sync</b> 可拉取聊天列表（更稳定）</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/dashboard.js"></script>
+</body>
+</html>
