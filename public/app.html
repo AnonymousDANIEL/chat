@@ -1,53 +1,64 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <title>Chats</title>
-    <link rel="stylesheet" href="/styles.css" />
+<meta charset="utf-8" />
+<title>Login</title>
+<link rel="stylesheet" href="/styles.css" />
+<style>
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+}
+.card{
+    width:350px;
+}
+</style>
 </head>
+
 <body>
-<div class="container">
-    <div class="topbar">
-        <div>
-            <div class="title">Chats</div>
-            <div class="subtitle" id="sub"></div>
-        </div>
-        <div class="row">
-            <button class="secondary" id="back">Back</button>
-            <button id="sync">Sync</button>
-        </div>
-    </div>
 
-    <div class="card chatLayout">
-        <div class="sidebar">
-            <div class="row" style="margin-bottom:10px">
-                <select id="sessionSel"></select>
-                <span class="pill" id="statusPill">status: -</span>
-            </div>
-            <input id="q" placeholder="搜索（号码/名称/内容）" style="width:100%;margin-bottom:10px" />
-            <div class="row" style="margin-bottom:10px">
-                <button class="secondary" data-filter="all">All</button>
-                <button class="secondary" data-filter="dm">DM</button>
-                <button class="secondary" data-filter="group">Groups</button>
-            </div>
-            <div id="chatList"></div>
-        </div>
+<div class="card">
+    <h2 style="margin-bottom:20px">Admin Login</h2>
 
-        <div class="main">
-            <div style="padding:10px;border-bottom:1px solid var(--line);font-weight:900" id="chatTitle">
-                未选择聊天
-            </div>
-            <div class="msgList" id="msgs"></div>
-            <div class="composer">
-                <input id="to" placeholder="to: 60xxxxxxxxx@c.us（选中聊天后自动填）" />
-                <input id="text" placeholder="message..." />
-                <button id="send">Send</button>
-            </div>
-        </div>
-    </div>
+    <input id="user" placeholder="username" style="width:100%;margin-bottom:10px" />
+    <input id="pass" type="password" placeholder="password" style="width:100%;margin-bottom:10px" />
+
+    <button id="loginBtn" style="width:100%">Login</button>
+
+    <div id="err" style="color:red;margin-top:10px"></div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/app.js"></script>
+<script>
+
+document.getElementById("loginBtn").onclick = async () => {
+
+    const username = document.getElementById("user").value
+    const password = document.getElementById("pass").value
+
+    const r = await fetch("/api/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            username,
+            password
+        })
+    })
+
+    const j = await r.json()
+
+    if(j.ok){
+        location.href="/dashboard.html"
+    }else{
+        document.getElementById("err").innerText="Login failed"
+    }
+
+}
+
+</script>
+
 </body>
 </html>
